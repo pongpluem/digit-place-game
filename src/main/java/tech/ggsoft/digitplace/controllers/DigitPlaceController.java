@@ -444,10 +444,10 @@ public class DigitPlaceController {
 							for(Integer j = 0; j<4;j++) {
 								log.info("j:"+j);
 								//Find in quest
-								log.info("text: "+text);
-								log.info("quest: "+quest);
-								log.info("text: "+text.substring(i,1));
-								log.info("quest: "+quest.substring(j,1));
+								log.info("text f: "+text);
+								log.info("quest f: "+quest);
+								log.info("text s: "+text.substring(i,1));
+								log.info("quest s: "+quest.substring(j,1));
 								if(text.substring(i,1).equals(quest.substring(j,1))) {
 									log.info("51");
 									if(placeUsed.get(i) == null) {
