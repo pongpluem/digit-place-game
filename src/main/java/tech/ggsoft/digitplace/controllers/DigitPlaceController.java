@@ -458,6 +458,8 @@ public class DigitPlaceController {
 						} 
 					}
 					//remove place use quest 
+					 Collections.sort(placeUsed, Collections.reverseOrder());
+					 log.info("placeUsed: "+placeUsed.toString());
 					for(Integer j: placeUsed) {
 						log.info("remove j: "+j);
 						texts.remove(j.intValue());
