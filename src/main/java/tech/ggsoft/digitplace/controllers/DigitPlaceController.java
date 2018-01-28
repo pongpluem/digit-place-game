@@ -427,7 +427,7 @@ public class DigitPlaceController {
 				if(text.length() == 4 && isInteger(text)) {
 					log.info("2");
 					//Length 4 and Integer 
-					for(int i = 0; i<4;i++) {	
+					for(Integer i = 0; i<4;i++) {	
 						log.info("i:"+i);
 						//loop text
 						log.info("text: "+text.substring(i,1));
@@ -440,7 +440,8 @@ public class DigitPlaceController {
 						}
 						else {
 							log.info("5");
-							for(int j = 0; j<4;j++) {
+							for(Integer j = 0; j<4;j++) {
+								log.info("j:"+j);
 								//Find in quest
 								if(text.substring(i,1).equals(game.getQuest().substring(j,1))) {
 									if(placeUsed.get(i) == null) {
@@ -451,7 +452,7 @@ public class DigitPlaceController {
 								}
 							}
 						}
-					}
+					}//for i
 					if(place >= 4) {
 						log.info("6");
 						games.remove(senderId);
