@@ -1,4 +1,4 @@
-package tech.ggsoft.digiplace;
+package tech.ggsoft.digitplace;
 
 import java.io.IOException;
 import java.nio.file.Files;

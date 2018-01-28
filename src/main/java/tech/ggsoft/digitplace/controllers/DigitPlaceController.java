@@ -79,7 +79,7 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import tech.ggsoft.digiplace.DigitPlaceApplication;
+import tech.ggsoft.digitplace.DigitPlaceApplication;
 
 @Slf4j
 @LineMessageHandler

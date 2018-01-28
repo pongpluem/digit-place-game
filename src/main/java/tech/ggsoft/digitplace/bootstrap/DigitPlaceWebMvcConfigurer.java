@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import lombok.extern.slf4j.Slf4j;
-import tech.ggsoft.digiplace.DigitPlaceApplication;
+import tech.ggsoft.digitplace.DigitPlaceApplication;
 
 @Configuration
 @Slf4j
