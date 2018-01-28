@@ -110,7 +110,7 @@ public class DigitPlaceController {
 
 	@PostConstruct
 	public void init() {
-
+		log.info("Initial");
 		games = new Hashtable<>();
 		game = new Game();
 	}
@@ -421,9 +421,9 @@ public class DigitPlaceController {
 						// loop text
 						if (text.substring(i, i + 1).equals(quest.substring(i, i + 1))) {
 							place++;
-							this.replyText(replyToken, "add place:"+place);
+							log.info("add place:"+place);
 							placeUsed.put(i, i);
-							this.replyText(replyToken, "i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
+							log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
 						} else {
 							for (Integer j = 0; j < 4; j++) {
 								// Find in quest
@@ -431,10 +431,10 @@ public class DigitPlaceController {
 									if (placeUsed.get(i) == null) {
 										// can use
 										digit++;
-										this.replyText(replyToken, "add digit:"+digit);
+										log.info("add digit:"+digit);
 										placeUsed.put(j, j);
 										
-										this.replyText(replyToken, "i"+i+"j"+j+" add placeUsed:"+placeUsed.toString());
+										log.info("i"+i+"j"+j+" add placeUsed:"+placeUsed.toString());
 									}
 								}
 							}
