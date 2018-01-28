@@ -452,16 +452,18 @@ public class DigitPlaceController {
 							}
 						}
 					}
-					if(place >=4) {
+					if(place >= 4) {
+						log.info("6");
 						games.remove(senderId);
 						this.replyText(replyToken, "Win!");
 					}
 					else {
+						log.info("7");
 						strb.setLength(0);
 			            strb.append("ถูกต้อง ตัวเลข ");
-			            strb.append(digit);
+			            strb.append(digit.toString());
 			            strb.append(" ตำแหน่ง ");
-			            strb.append(place);
+			            strb.append(place.toString());
 						this.replyText(replyToken, strb.toString());
 					}
 				}
