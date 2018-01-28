@@ -392,7 +392,7 @@ public class DigitPlaceController {
 			} else {
 				games.put(senderId, game);
 			}
-			this.replyText(replyToken, "Game Start!" + game.getQuest());
+			this.replyText(replyToken, "Game Start!");
 			break;
 		case "g stop":
 			// this.help(replyToken, text);
@@ -411,68 +411,37 @@ public class DigitPlaceController {
 			if (game != null) {
 				Integer digit = 0;
 				Integer place = 0;
-				String quest = game.getQuest();
-				//List<String> quests = new ArrayList<>(Arrays.asList(a));
-				//String quests[] = game.getQuest().split("");
-				//String texts[] = text.split("");
 				List<String> quests = new ArrayList<>(Arrays.asList(game.getQuest().split("")));
 				List<String> texts = new ArrayList<>(Arrays.asList(text.split("")));
-
-
 				List<Integer> placeUsed = new ArrayList<>();
 
 				// verify integer
 				if (text.length() == 4 && isInteger(text)) {
 					// Length 4 and Integer
-					/*for (Integer i = 0; i < 4; i++) {
-						// loop text
-						if (text.substring(i, i + 1).equals(quest.substring(i, i + 1))) {
-							place++;
-							log.info("add place:"+place);
-							placeUsed.put(i, i);
-							log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
-						} else {
-							for (Integer j = 0; j < 4; j++) {
-								// Find in quest
-								if (text.substring(i, i + 1).equals(quest.substring(j, j + 1))) {
-									if (placeUsed.get(i) == null) {
-										// can use
-										digit++;
-										log.info("add digit:"+digit);
-										placeUsed.put(j, j);
-										
-										log.info("i"+i+"j"+j+" add placeUsed:"+placeUsed.toString());
-									}
-								}
-							}
-						}
-					} // for i					
-					*/
 					//place find
-					for (Integer i = 0; i < 4; i++) {						
+					for (Integer i = 3; i >= 0; i--) {						
 						if (texts.get(i).equals(quests.get(i))) {
 							place++;
 							//log.info("add place:"+place);
 							placeUsed.add(i);
-							log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
+							//log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
 						} 
 					}
 					//remove place use quest 
-					 Collections.sort(placeUsed, Collections.reverseOrder());
-					 log.info("placeUsed: "+placeUsed.toString());
+					//Collections.sort(placeUsed, Collections.reverseOrder());
+					//log.info("placeUsed: "+placeUsed.toString());
 					for(Integer j: placeUsed) {
-						log.info("remove j: "+j);
+						//log.info("remove j: "+j);
 						texts.remove(j.intValue());
 						quests.remove(j.intValue());
 					}
-					log.info("texts: "+texts.toString());
-					log.info("quests: "+quests.toString());
+					//log.info("texts: "+texts.toString());
+					//log.info("quests: "+quests.toString());
 					
 					//find digit
 					for(Integer k=0; k < texts.size(); k++) {
 						int s = quests.size();
-						log.info("quests.size():"+s);
-						//int l=0;
+						//log.info("quests.size():"+s);					
 						while(s>0) {
 							if (texts.get(k).equals(quests.get(s-1))){
 								digit++;
@@ -481,18 +450,9 @@ public class DigitPlaceController {
 								
 								//break;
 							}
-							//l++;
+							
 							s--;
-						}
-						/*for(Integer l=0; l< quests.size(); l++) {
-							if (texts.get(k).equals(quests.get(l))) {
-								digit++;
-								log.info("add digit:"+digit);
-								quests.remove(l);
-								log.info("quests.size():"+quests.size());
-								break;
-							}
-						}*/
+						}						
 					}
 					
 					if (place >= 4) {
