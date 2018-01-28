@@ -430,6 +430,9 @@ public class DigitPlaceController {
 					for(int i = 0; i<4;i++) {	
 						log.info("i:"+i);
 						//loop text
+						log.info("text: "+text.substring(i,1));
+						log.info("quest: "+game.getQuest().substring(i,1));
+						log.info("3");;
 						if(Integer.parseInt(text.substring(i,1)) == Integer.parseInt(game.getQuest().substring(i,1))) {
 							place++;
 							placeUsed.put(i, i);
