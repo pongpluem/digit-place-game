@@ -411,6 +411,9 @@ public class DigitPlaceController {
 			log.info("1");
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
+			
+			log.info(game.toString());
+			
 			if(game != null) {
 				Integer digit = 0;
 				Integer place = 0;

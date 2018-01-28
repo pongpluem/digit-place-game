@@ -89,6 +89,12 @@ public class Game {
 	public void setLocalTime(LocalTime localTime) {
 		this.localTime = localTime;
 	}
+
+	@Override
+	public String toString() {
+		return "Game [userid=" + userid + ", quest=" + quest + ", d1=" + d1 + ", d2=" + d2 + ", d3=" + d3 + ", d4=" + d4
+				+ ", localTime=" + localTime + "]";
+	}
 	
 	
 	
