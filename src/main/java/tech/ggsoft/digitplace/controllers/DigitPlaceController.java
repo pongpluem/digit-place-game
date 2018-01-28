@@ -465,7 +465,21 @@ public class DigitPlaceController {
 					
 					//find digit
 					for(Integer k=0; k < texts.size(); k++) {
-						for(Integer l=0; l< quests.size(); l++) {
+						int s = quests.size();
+						log.info("quests.size():"+s);
+						//int l=0;
+						while(s>0) {
+							if (texts.get(k).equals(quests.get(s-1))){
+								digit++;
+								log.info("add digit:"+digit);
+								quests.remove(s-1);
+								
+								break;
+							}
+							//l++;
+							s--;
+						}
+						/*for(Integer l=0; l< quests.size(); l++) {
 							if (texts.get(k).equals(quests.get(l))) {
 								digit++;
 								log.info("add digit:"+digit);
@@ -473,7 +487,7 @@ public class DigitPlaceController {
 								log.info("quests.size():"+quests.size());
 								break;
 							}
-						}
+						}*/
 					}
 					
 					if (place >= 4) {
