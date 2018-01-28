@@ -461,19 +461,31 @@ public class DigitPlaceController {
 					if(place >= 4) {
 						log.info("6");
 						games.remove(senderId);
-						this.replyText(replyToken, "Win!");
+						
+						lineMessagingClient
+                        .getProfile(userId)
+                        .whenComplete((profile, throwable) -> {
+                            if (throwable != null) {
+                            	this.replyText(replyToken, "Your Win!");
+                                return;
+                            }
+
+                            this.replyText(replyToken, profile.getDisplayName()+" Win!");                                                        
+
+                        });
+						
 					}
 					else {
 						log.info("7");
 						strb.setLength(0);
 			            strb.append("ถูกต้อง ตัวเลข ");
-			            strb.append(digit.toString());
+			            strb.append(digit);
 			            strb.append(" ตำแหน่ง ");
-			            strb.append(place.toString());
+			            strb.append(place);
 						this.replyText(replyToken, strb.toString());
 					}
-				}
-			}
+				}//Game verify
+			}//game
 			
 			break;
 		}
