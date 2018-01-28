@@ -385,6 +385,8 @@ public class DigitPlaceController {
              strb.append(d4);
              game = new Game(senderId,strb.toString(),d1,d2,d3,d4,LocalTime.now());
                                    
+             games = Optional.ofNullable(games).orElse(new Hashtable<>());
+             
              if(Optional.ofNullable(games.get(senderId)).isPresent()) {
             	 // Already Start            	 
             	 games.replace(senderId, game);
@@ -396,7 +398,7 @@ public class DigitPlaceController {
 			break;
 		case "dp stop":
 			//this.help(replyToken, text);
-			
+			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			games.remove(senderId);
 			this.replyText(replyToken, "Game Stop!");
 			break;
@@ -405,6 +407,7 @@ public class DigitPlaceController {
 			//log.info("Returns echo message {}: {}", replyToken, text);
 			//this.replyText(replyToken, text);
 			//Verify game already start
+			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
 			if(game != null) {
 				Integer digit = 0;
