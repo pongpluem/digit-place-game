@@ -467,7 +467,7 @@ public class DigitPlaceController {
 						strb.setLength(0);
 						strb.append(" ตำแหน่ง : ");
 						strb.append(place);
-						strb.append("ตัวเลข : ");
+						strb.append(" ตัวเลข : ");
 						strb.append(digit);						
 						this.replyText(replyToken, strb.toString());
 					}
