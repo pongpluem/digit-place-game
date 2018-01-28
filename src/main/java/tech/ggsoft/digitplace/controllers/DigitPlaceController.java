@@ -89,7 +89,7 @@ public class DigitPlaceController {
 
     @EventMapping
     public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {    	 
-    	log.info("Handle Text Message");
+    	//log.info("Handle Text Message");
     	
         TextMessageContent message = event.getMessage();
         handleTextContent(event.getReplyToken(), event, message);
@@ -97,26 +97,26 @@ public class DigitPlaceController {
 
     @EventMapping
     public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {    	
-    	log.info("Handle Sticker Message");
-        handleSticker(event.getReplyToken(), event.getMessage());
+    	//log.info("Handle Sticker Message");
+        //handleSticker(event.getReplyToken(), event.getMessage());
     }
 
     @EventMapping
     public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {    	
-    	log.info("Handle Location Message");
+    /*	log.info("Handle Location Message");
         LocationMessageContent locationMessage = event.getMessage();
         reply(event.getReplyToken(), new LocationMessage(
                 locationMessage.getTitle(),
                 locationMessage.getAddress(),
                 locationMessage.getLatitude(),
                 locationMessage.getLongitude()
-        ));
+        ));*/
     }
 
     @EventMapping
     public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws IOException {
         // You need to install ImageMagick    	
-    	log.info("Handle Image Message");
+    	/*log.info("Handle Image Message");
         handleHeavyContent(
                 event.getReplyToken(),
                 event.getMessage().getId(),
@@ -130,25 +130,25 @@ public class DigitPlaceController {
                             previewImg.path.toString());
                     reply(((MessageEvent) event).getReplyToken(),
                           new ImageMessage(jpg.getUri(), jpg.getUri()));
-                });
+                });*/
     }
 
     @EventMapping
     public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {    	
     	log.info("Handle Audio Message");
-        handleHeavyContent(
+      /*  handleHeavyContent(
                 event.getReplyToken(),
                 event.getMessage().getId(),
                 responseBody -> {
                     DownloadedContent mp4 = saveContent("mp4", responseBody);
                     reply(event.getReplyToken(), new AudioMessage(mp4.getUri(), 100));
-                });
+                });*/
     }
 
     @EventMapping
     public void handleVideoMessageEvent(MessageEvent<VideoMessageContent> event) throws IOException {
         // You need to install ffmpeg and ImageMagick.    	
-    	log.info("Handle Video Message");
+    	/*log.info("Handle Video Message");
         handleHeavyContent(
                 event.getReplyToken(),
                 event.getMessage().getId(),
@@ -160,7 +160,7 @@ public class DigitPlaceController {
                            previewImg.path.toString());
                     reply(((MessageEvent) event).getReplyToken(),
                           new VideoMessage(mp4.getUri(), previewImg.uri));
-                });
+                });*/
     }
 
     @EventMapping
@@ -170,14 +170,14 @@ public class DigitPlaceController {
 
     @EventMapping
     public void handleFollowEvent(FollowEvent event) {
-        String replyToken = event.getReplyToken();
-        this.replyText(replyToken, "Got followed event");
+        //String replyToken = event.getReplyToken();
+        //this.replyText(replyToken, "Got followed event");
     }
 
     @EventMapping
     public void handleJoinEvent(JoinEvent event) {
-        String replyToken = event.getReplyToken();
-        this.replyText(replyToken, "Joined " + event.getSource());
+        //String replyToken = event.getReplyToken();
+        //this.replyText(replyToken, "Joined " + event.getSource());
     }
 
     @EventMapping
@@ -188,8 +188,8 @@ public class DigitPlaceController {
 
     @EventMapping
     public void handleBeaconEvent(BeaconEvent event) {
-        String replyToken = event.getReplyToken();
-        this.replyText(replyToken, "Got beacon message " + event.getBeacon().getHwid());
+        //String replyToken = event.getReplyToken();
+        //this.replyText(replyToken, "Got beacon message " + event.getBeacon().getHwid());
     }
 
     @EventMapping
@@ -268,11 +268,11 @@ public class DigitPlaceController {
 
     private void handleTextContent(String replyToken, Event event, TextMessageContent content)
             throws Exception {
-        String text = content.getText();
+        String text = content.getText().toLowerCase();
 
         log.info("Got text message from {}: {}", replyToken, text);
         switch (text) {
-            case "profile": {
+            /*case "profile": {
                 String userId = event.getSource().getUserId();
                 if (userId != null) {
                     lineMessagingClient
@@ -480,7 +480,19 @@ public class DigitPlaceController {
                                 )
                         )
                 ));
-                break;
+                break;*/
+        	case "dp help":
+        		this.help(replyToken,text);
+        		break;
+        	case "dp ?":
+        		this.help(replyToken,text);
+        		break;
+        	case "dp start":
+        		this.help(replyToken,text);
+        		break;
+        	case "dp stop":
+        		this.help(replyToken,text);
+        		break;
             default:
                 log.info("Returns echo message {}: {}", replyToken, text);
                 this.replyText(
@@ -490,7 +502,27 @@ public class DigitPlaceController {
                 break;
         }
     }
-
+    
+    private void help(@NonNull String replyToken, @NonNull String message) {
+        if (replyToken.isEmpty()) {
+            throw new IllegalArgumentException("replyToken must not be empty");
+        }
+        
+        StringBuilder strb = new StringBuilder();
+                           
+        strb.append(" วิธีเล่น");
+        strb.append("เริ่มเล่นเกมส์โดย พิมพ์ dp start ");
+               strb.append("ระบบจะสุ่มเลือกตัวเลข 0-9 มาจำนวน 4 หลัก เช่น 1111 หรือ 1150 ");
+               strb.append(" จากนั้น ผู้เล่น สามารถพิมพ์ เพื่อทายตัวเอง เช่น 1234 ");
+              strb.append(" ระบบจะแจ้งผลว่า ทายตัวเลขถูกกี่เลข และ ตำแหน่งที่วางถูกหรือไม่");
+               strb.append(" เช่น ตัวเลข 1 ตำแหน่ง 2 หมายความว่า ทายตัวเลขถูกและตรงตำแหน่ง 2 ตัว และทายตัวเลขถูก แต่ไม่ตรงตำแหน่ง 1 ตัว");
+               strb.append("  เกมส์จะจบและแจ้งผู้ชนะ หากทายตัวเลขถูกและตรงตำแหน่งครบ 4 ตัว");
+               strb.append("  หรือ ใช้เวลาในการเล่นนานเกิน 10 นาที");
+               strb.append("  สามารถจบเกมส์ได้ทันที โดยการพิมพ์ dp stop");
+        message = strb.toString();
+        this.reply(replyToken, new TextMessage(message));
+    }
+    
     private static String createUri(String path) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                                           .path(path).build()
