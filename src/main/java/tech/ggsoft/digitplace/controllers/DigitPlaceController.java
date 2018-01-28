@@ -432,15 +432,17 @@ public class DigitPlaceController {
 						//loop text
 						log.info("text: "+text.substring(i,1));
 						log.info("quest: "+game.getQuest().substring(i,1));
-						log.info("3");;
-						if(Integer.parseInt(text.substring(i,1)) == Integer.parseInt(game.getQuest().substring(i,1))) {
+						log.info("3");
+						if(text.substring(i,1).equals(game.getQuest().substring(i,1))) {
+							log.info("4");
 							place++;
 							placeUsed.put(i, i);
 						}
 						else {
+							log.info("5");
 							for(int j = 0; j<4;j++) {
 								//Find in quest
-								if(Integer.parseInt(text.substring(i,1)) == Integer.parseInt(game.getQuest().substring(j,1))) {
+								if(text.substring(i,1).equals(game.getQuest().substring(j,1))) {
 									if(placeUsed.get(i) == null) {
 										// can use
 										digit++;
