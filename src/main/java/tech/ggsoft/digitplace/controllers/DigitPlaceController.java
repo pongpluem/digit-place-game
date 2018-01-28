@@ -467,9 +467,9 @@ public class DigitPlaceController {
 
 					} else {
 						strb.setLength(0);
-						strb.append("ถูกต้อง ตัวเลข ");
+						strb.append("ตัวเลข : ");
 						strb.append(digit);
-						strb.append(" ตำแหน่ง ");
+						strb.append(" ตำแหน่ง : ");
 						strb.append(place);
 						this.replyText(replyToken, strb.toString());
 					}
