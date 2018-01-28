@@ -384,7 +384,8 @@ public class DigitPlaceController {
              strb.append(d3);
              strb.append(d4);
              game = new Game(senderId,strb.toString(),d1,d2,d3,d4,LocalTime.now());
-                                   
+             
+             log.info("game: "+game.toString());
              games = Optional.ofNullable(games).orElse(new Hashtable<>());
              
              if(Optional.ofNullable(games.get(senderId)).isPresent()) {
@@ -394,7 +395,7 @@ public class DigitPlaceController {
              else {
             	 games.put(senderId, game);
              }
-             this.replyText(replyToken, "Game Start!");
+             this.replyText(replyToken, "Game Start! "+game.getQuest());
 			break;
 		case "dp stop":
 			//this.help(replyToken, text);
@@ -412,7 +413,9 @@ public class DigitPlaceController {
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
 			
-			log.info(game.toString());
+			log.info("game: "+game.toString());
+			
+			log.info("quest:"+game.getQuest());
 			
 			if(game != null) {
 				Integer digit = 0;
@@ -424,7 +427,8 @@ public class DigitPlaceController {
 				if(text.length() == 4 && isInteger(text)) {
 					log.info("2");
 					//Length 4 and Integer 
-					for(int i = 0; i<4;i++) {						
+					for(int i = 0; i<4;i++) {	
+						log.info("i:"+i);
 						//loop text
 						if(Integer.parseInt(text.substring(i,1)) == Integer.parseInt(game.getQuest().substring(i,1))) {
 							place++;
