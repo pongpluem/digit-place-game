@@ -479,7 +479,7 @@ public class DigitPlaceController {
 								log.info("add digit:"+digit);
 								quests.remove(s-1);
 								
-								break;
+								//break;
 							}
 							//l++;
 							s--;
