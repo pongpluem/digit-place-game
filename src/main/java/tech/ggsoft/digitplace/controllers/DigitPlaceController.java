@@ -84,6 +84,9 @@ import tech.ggsoft.digitplace.DigitPlaceApplication;
 @Slf4j
 @LineMessageHandler
 public class DigitPlaceController {
+	
+	private String testtext = "";
+	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 
@@ -343,6 +346,14 @@ public class DigitPlaceController {
 			break;
 		case "dp stop":
 			this.help(replyToken, text);
+			break;
+			
+		case "dp get":
+			this.replyText(replyToken, testtext);
+			break;
+			
+		case "dp set":
+			testtext = "555";
 			break;
 		default:
 			log.info("Returns echo message {}: {}", replyToken, text);
