@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -411,13 +412,19 @@ public class DigitPlaceController {
 				Integer digit = 0;
 				Integer place = 0;
 				String quest = game.getQuest();
+				//List<String> quests = new ArrayList<>(Arrays.asList(a));
+				//String quests[] = game.getQuest().split("");
+				//String texts[] = text.split("");
+				List<String> quests = new ArrayList<>(Arrays.asList(game.getQuest().split("")));
+				List<String> texts = new ArrayList<>(Arrays.asList(text.split("")));
 
-				Hashtable<Integer, Integer> placeUsed = new Hashtable<>();
+
+				List<Integer> placeUsed = new ArrayList<>();
 
 				// verify integer
 				if (text.length() == 4 && isInteger(text)) {
 					// Length 4 and Integer
-					for (Integer i = 0; i < 4; i++) {
+					/*for (Integer i = 0; i < 4; i++) {
 						// loop text
 						if (text.substring(i, i + 1).equals(quest.substring(i, i + 1))) {
 							place++;
@@ -439,7 +446,35 @@ public class DigitPlaceController {
 								}
 							}
 						}
-					} // for i
+					} // for i					
+					*/
+					//place find
+					for (Integer i = 0; i < 4; i++) {						
+						if (texts.get(i).equals(quests.get(i))) {
+							place++;
+							//log.info("add place:"+place);
+							placeUsed.add(i);
+							log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
+						} 
+					}
+					//remove place use quest 
+					for(Integer j: placeUsed) {
+						texts.remove(j);
+						quests.remove(j);
+					}
+					
+					//find digit
+					for(Integer k=0; k < texts.size(); k++) {
+						for(Integer l=0; l< quests.size(); l++) {
+							if (texts.get(k).equals(quests.get(l))) {
+								digit++;
+								log.info("add digit:"+digit);
+								quests.remove(l);
+								log.info("quests.size():"+quests.size());
+							}
+						}
+					}
+					
 					if (place >= 4) {
 						games.remove(senderId);
 						lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
