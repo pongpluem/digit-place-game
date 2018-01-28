@@ -22,12 +22,18 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+
+import javax.annotation.PostConstruct;
 
 import com.linecorp.bot.model.action.DatetimePickerAction;
 import com.linecorp.bot.model.message.template.*;
@@ -80,15 +86,33 @@ import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import tech.ggsoft.digitplace.DigitPlaceApplication;
+import tech.ggsoft.digitplace.model.Game;
 
 @Slf4j
 @LineMessageHandler
 public class DigitPlaceController {
 	
-	private String testtext = "";
+
+	private String userId;
+    private String senderId;
+    
+    private Integer d1;
+    private Integer d2;
+    private Integer d3;
+    private Integer d4;
+    
+	private Hashtable<String,Game> games = new Hashtable<>();
+	private Game game = new Game();
 	
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
+	
+	@PostConstruct
+	  public void init(){
+		
+		games = new Hashtable<>();
+		game = new Game();
+	  }
 
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -342,26 +366,93 @@ public class DigitPlaceController {
 			this.help(replyToken, text);
 			break;
 		case "dp start":
-			this.help(replyToken, text);
+			//this.help(replyToken, text);
+			 userId = event.getSource().getUserId();
+             senderId = event.getSource().getSenderId();
+            
+             
+             d1 = randInt(0,9);
+             d2 = randInt(0,9);
+             d3 = randInt(0,9);
+             d4 = randInt(0,9);
+             StringBuilder strb = new StringBuilder();
+             strb.append(d1);
+             strb.append(d2);
+             strb.append(d3);
+             strb.append(d4);
+             game = new Game(senderId,strb.toString(),d1,d2,d3,d4,LocalTime.now());
+                                   
+             if(Optional.ofNullable(games.get(senderId)).isPresent()) {
+            	 // Already Start            	 
+            	 games.replace(senderId, game);
+             } 
+             else {
+            	 games.put(senderId, game);
+             }
+             this.replyText(replyToken, "Game Start!");
 			break;
 		case "dp stop":
-			this.help(replyToken, text);
-			break;
+			//this.help(replyToken, text);
 			
-		case "dp get":
-			this.replyText(replyToken, testtext);
+			games.remove(senderId);
+			this.replyText(replyToken, "Game Stop!");
 			break;
-			
-		case "dp set":
-			testtext = "555";
-			break;
+					
 		default:
-			log.info("Returns echo message {}: {}", replyToken, text);
-			this.replyText(replyToken, text);
+			//log.info("Returns echo message {}: {}", replyToken, text);
+			//this.replyText(replyToken, text);
+			//Verify game already start
+			game = games.get(senderId);
+			if(game != null) {
+				Integer digit = 0;
+				Integer place = 0;
+				
+				Hashtable<Integer,Integer> placeUsed = new Hashtable<>();
+				
+				//verify integer
+				if(text.length() == 4 && isInteger(text)) {
+					//Length 4 and Integer 
+					for(int i = 0; i<4;i++) {						
+						//loop text
+						if(Integer.parseInt(text.substring(i,1)) == Integer.parseInt(game.getQuest().substring(i,1))) {
+							place++;
+							placeUsed.put(i, i);
+						}
+						else {
+							for(int j = 0; j<4;j++) {
+								//Find in quest
+								if(Integer.parseInt(text.substring(i,1)) == Integer.parseInt(game.getQuest().substring(j,1))) {
+									if(placeUsed.get(i) == null) {
+										// can use
+										digit++;
+										placeUsed.put(j, j);
+									}
+								}
+							}
+						}
+					}
+					if(place >=4) {
+						games.remove(senderId);
+						this.replyText(replyToken, "Win!");
+					}
+				}
+			}
+			
 			break;
 		}
 	}
 
+	private int randInt(int min, int max) {
+
+	    // Usually this can be a field rather than a method variable
+	    Random rand = new Random();
+
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+	}
 	private void help(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
 			throw new IllegalArgumentException("replyToken must not be empty");
@@ -423,4 +514,20 @@ public class DigitPlaceController {
 		Path path;
 		String uri;
 	}
+	
+	public static boolean isInteger(String s) {
+	    try { 
+	        if(Integer.parseInt(s) < 0)
+	        	return false;
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    } catch(NullPointerException e) {
+	        return false;
+	    }
+	    // only got here if we didn't return false
+	  
+	    return true;
+	}
+	
+	
 }
