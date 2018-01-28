@@ -96,6 +96,8 @@ public class DigitPlaceController {
 	private String userId;
     private String senderId;
     
+    StringBuilder strb = new StringBuilder();
+    
     private Integer d1;
     private Integer d2;
     private Integer d3;
@@ -375,7 +377,8 @@ public class DigitPlaceController {
              d2 = randInt(0,9);
              d3 = randInt(0,9);
              d4 = randInt(0,9);
-             StringBuilder strb = new StringBuilder();
+             
+             strb.setLength(0);
              strb.append(d1);
              strb.append(d2);
              strb.append(d3);
@@ -434,6 +437,14 @@ public class DigitPlaceController {
 					if(place >=4) {
 						games.remove(senderId);
 						this.replyText(replyToken, "Win!");
+					}
+					else {
+						strb.setLength(0);
+			            strb.append("ถูกต้อง ตัวเลข ");
+			            strb.append(digit);
+			            strb.append(" ตำแหน่ง ");
+			            strb.append(place);
+						this.replyText(replyToken, strb.toString());
 					}
 				}
 			}
