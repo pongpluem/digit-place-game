@@ -407,6 +407,8 @@ public class DigitPlaceController {
 			//log.info("Returns echo message {}: {}", replyToken, text);
 			//this.replyText(replyToken, text);
 			//Verify game already start
+			
+			log.info("1");
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
 			if(game != null) {
@@ -417,6 +419,7 @@ public class DigitPlaceController {
 				
 				//verify integer
 				if(text.length() == 4 && isInteger(text)) {
+					log.info("2");
 					//Length 4 and Integer 
 					for(int i = 0; i<4;i++) {						
 						//loop text
@@ -530,6 +533,7 @@ public class DigitPlaceController {
 	}
 	
 	public static boolean isInteger(String s) {
+		log.info("Begin");
 	    try { 
 	        if(Integer.parseInt(s) < 0)
 	        	return false;
@@ -539,7 +543,7 @@ public class DigitPlaceController {
 	        return false;
 	    }
 	    // only got here if we didn't return false
-	  
+	    log.info("End");
 	    return true;
 	}
 	
