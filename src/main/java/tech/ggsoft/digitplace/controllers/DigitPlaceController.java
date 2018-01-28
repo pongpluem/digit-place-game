@@ -510,7 +510,7 @@ public class DigitPlaceController {
         
         StringBuilder strb = new StringBuilder();
                            
-        strb.append(" วิธีเล่น");
+        strb.append("วิธีเล่น\n");
         strb.append("เริ่มเล่นเกมส์โดย พิมพ์ dp start ");
                strb.append("ระบบจะสุ่มเลือกตัวเลข 0-9 มาจำนวน 4 หลัก เช่น 1111 หรือ 1150 ");
                strb.append(" จากนั้น ผู้เล่น สามารถพิมพ์ เพื่อทายตัวเอง เช่น 1234 ");
