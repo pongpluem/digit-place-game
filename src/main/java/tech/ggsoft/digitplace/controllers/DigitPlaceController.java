@@ -420,6 +420,7 @@ public class DigitPlaceController {
 			if(game != null) {
 				Integer digit = 0;
 				Integer place = 0;
+				String quest = game.getQuest();
 				
 				Hashtable<Integer,Integer> placeUsed = new Hashtable<>();
 				
@@ -431,9 +432,9 @@ public class DigitPlaceController {
 						log.info("i:"+i);
 						//loop text
 						log.info("text: "+text.substring(i,1));
-						log.info("quest: "+game.getQuest().substring(i,1));
+						log.info("quest: "+quest.substring(i,1));
 						log.info("3");
-						if(text.substring(i,1).equals(game.getQuest().substring(i,1))) {
+						if(text.substring(i,1).equals(quest.substring(i,1))) {
 							log.info("4");
 							place++;
 							placeUsed.put(i, i);
@@ -444,10 +445,10 @@ public class DigitPlaceController {
 								log.info("j:"+j);
 								//Find in quest
 								log.info("text: "+text);
-								log.info("quest: "+game.getQuest());
+								log.info("quest: "+quest);
 								log.info("text: "+text.substring(i,1));
-								log.info("quest: "+game.getQuest().substring(j,1));
-								if(text.substring(i,1).equals(game.getQuest().substring(j,1))) {
+								log.info("quest: "+quest.substring(j,1));
+								if(text.substring(i,1).equals(quest.substring(j,1))) {
 									log.info("51");
 									if(placeUsed.get(i) == null) {
 										log.info("52");
