@@ -460,8 +460,8 @@ public class DigitPlaceController {
 					//remove place use quest 
 					for(Integer j: placeUsed) {
 						log.info("remove j: "+j);
-						texts.remove(j);
-						quests.remove(j);
+						texts.remove(j.intValue());
+						quests.remove(j.intValue());
 					}
 					log.info("texts: "+texts.toString());
 					log.info("quests: "+quests.toString());
