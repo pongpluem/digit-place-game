@@ -446,11 +446,9 @@ public class DigitPlaceController {
 							if (texts.get(k).equals(quests.get(s-1))){
 								digit++;
 								log.info("add digit:"+digit);
-								quests.remove(s-1);
-								
+								quests.remove(s-1);								
 								//break;
 							}
-							
 							s--;
 						}						
 					}
@@ -467,10 +465,10 @@ public class DigitPlaceController {
 
 					} else {
 						strb.setLength(0);
-						strb.append("ตัวเลข : ");
-						strb.append(digit);
 						strb.append(" ตำแหน่ง : ");
 						strb.append(place);
+						strb.append("ตัวเลข : ");
+						strb.append(digit);						
 						this.replyText(replyToken, strb.toString());
 					}
 				} // Game verify
