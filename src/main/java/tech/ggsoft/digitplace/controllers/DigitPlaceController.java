@@ -443,8 +443,14 @@ public class DigitPlaceController {
 							for(Integer j = 0; j<4;j++) {
 								log.info("j:"+j);
 								//Find in quest
+								log.info("text: "+text);
+								log.info("quest: "+game.getQuest());
+								log.info("text: "+text.substring(i,1));
+								log.info("quest: "+game.getQuest().substring(j,1));
 								if(text.substring(i,1).equals(game.getQuest().substring(j,1))) {
+									log.info("51");
 									if(placeUsed.get(i) == null) {
+										log.info("52");
 										// can use
 										digit++;
 										placeUsed.put(j, j);
