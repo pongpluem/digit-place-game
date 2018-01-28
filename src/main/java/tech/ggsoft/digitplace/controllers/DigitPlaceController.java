@@ -361,13 +361,13 @@ public class DigitPlaceController {
 		 * ImagemapArea( 0, 520, 520, 520 ) ), new MessageImagemapAction( "URANAI!", new
 		 * ImagemapArea( 520, 520, 520, 520 ) ) ) )); break;
 		 */
-		case "dp help":
+		case "g help":
 			this.help(replyToken, text);
 			break;
-		case "dp ?":
+		case "g ?":
 			this.help(replyToken, text);
 			break;
-		case "dp start":
+		case "g start":
 			//this.help(replyToken, text);
 			 userId = event.getSource().getUserId();
              senderId = event.getSource().getSenderId();
@@ -397,7 +397,7 @@ public class DigitPlaceController {
              }
              this.replyText(replyToken, "Game Start! "+game.getQuest());
 			break;
-		case "dp stop":
+		case "g stop":
 			//this.help(replyToken, text);
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			games.remove(senderId);
@@ -510,12 +510,12 @@ public class DigitPlaceController {
 		StringBuilder strb = new StringBuilder();
 
 		strb.append("วิธีเล่น\n");
-		strb.append("1. พิมพ์ dp start เพื่อเริ่มเกมส์\n");
+		strb.append("1. พิมพ์ g start เพื่อเริ่มเกมส์\n");
 		strb.append("	- ระบบจะสุ่มเลือกตัวเลข 0-9 มาจำนวน 4 หลัก เช่น 1111 หรือ 1150\n");
 		strb.append("2. พิมพ์ตัวเลข 4 หลัก เช่น 1234  เพื่อทายตัวเลข\n");
 		strb.append("	- ระบบจะแสดง จำนวน ตัวเลข และ ตำแหน่ง ที่ถูกต้อง เช่น ตัวเลข : 1 ตำแหน่ง : 3\n");
 		strb.append("3. เกมส์จบเมือทายถูกครบ 4 ตำแหน่ง\n");
-		strb.append("4. สามารถจบเกมส์ได้ทันที โดยการพิมพ์ dp stop\n");
+		strb.append("4. สามารถจบเกมส์ได้ทันที โดยการพิมพ์ g stop\n");
 		message = strb.toString();
 		this.reply(replyToken, new TextMessage(message));
 	}
