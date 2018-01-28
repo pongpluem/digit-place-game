@@ -91,30 +91,29 @@ import tech.ggsoft.digitplace.model.Game;
 @Slf4j
 @LineMessageHandler
 public class DigitPlaceController {
-	
 
 	private String userId;
-    private String senderId;
-    
-    StringBuilder strb = new StringBuilder();
-    
-    private Integer d1;
-    private Integer d2;
-    private Integer d3;
-    private Integer d4;
-    
-	private Hashtable<String,Game> games = new Hashtable<>();
+	private String senderId;
+
+	StringBuilder strb = new StringBuilder();
+
+	private Integer d1;
+	private Integer d2;
+	private Integer d3;
+	private Integer d4;
+
+	private Hashtable<String, Game> games = new Hashtable<>();
 	private Game game = new Game();
-	
+
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
-	
+
 	@PostConstruct
-	  public void init(){
-		
+	public void init() {
+
 		games = new Hashtable<>();
 		game = new Game();
-	  }
+	}
 
 	@EventMapping
 	public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) throws Exception {
@@ -368,88 +367,66 @@ public class DigitPlaceController {
 			this.help(replyToken, text);
 			break;
 		case "g start":
-			//this.help(replyToken, text);
-			 userId = event.getSource().getUserId();
-             senderId = event.getSource().getSenderId();
-            
-             
-             d1 = randInt(0,9);
-             d2 = randInt(0,9);
-             d3 = randInt(0,9);
-             d4 = randInt(0,9);
-             
-             strb.setLength(0);
-             strb.append(d1);
-             strb.append(d2);
-             strb.append(d3);
-             strb.append(d4);
-             game = new Game(senderId,strb.toString(),d1,d2,d3,d4,LocalTime.now());
-             
-             log.info("game: "+game.toString());
-             games = Optional.ofNullable(games).orElse(new Hashtable<>());
-             
-             if(Optional.ofNullable(games.get(senderId)).isPresent()) {
-            	 // Already Start            	 
-            	 games.replace(senderId, game);
-             } 
-             else {
-            	 games.put(senderId, game);
-             }
-             this.replyText(replyToken, "Game Start! "+game.getQuest());
+			// this.help(replyToken, text);
+			userId = event.getSource().getUserId();
+			senderId = event.getSource().getSenderId();
+
+			d1 = randInt(0, 9);
+			d2 = randInt(0, 9);
+			d3 = randInt(0, 9);
+			d4 = randInt(0, 9);
+
+			strb.setLength(0);
+			strb.append(d1);
+			strb.append(d2);
+			strb.append(d3);
+			strb.append(d4);
+			game = new Game(senderId, strb.toString(), d1, d2, d3, d4, LocalTime.now());
+
+			games = Optional.ofNullable(games).orElse(new Hashtable<>());
+
+			if (Optional.ofNullable(games.get(senderId)).isPresent()) {
+				// Already Start
+				games.replace(senderId, game);
+			} else {
+				games.put(senderId, game);
+			}
+			this.replyText(replyToken, "Game Start!");
 			break;
 		case "g stop":
-			//this.help(replyToken, text);
+			// this.help(replyToken, text);
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			games.remove(senderId);
-			this.replyText(replyToken, "Game Stop!");
+			this.replyText(replyToken, "Game Over!");
 			break;
-					
+
 		default:
-			//log.info("Returns echo message {}: {}", replyToken, text);
-			//this.replyText(replyToken, text);
-			//Verify game already start
-			
-			log.info("1");
+			// log.info("Returns echo message {}: {}", replyToken, text);
+			// this.replyText(replyToken, text);
+			// Verify game already start
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
-			
-			log.info("game: "+game.toString());
-			
-			log.info("quest:"+game.getQuest());
-			
-			if(game != null) {
+
+			if (game != null) {
 				Integer digit = 0;
 				Integer place = 0;
-				String quest = game.getQuest();			
-				
-				Hashtable<Integer,Integer> placeUsed = new Hashtable<>();
-				
-				//verify integer
-				if(text.length() == 4 && isInteger(text)) {
-					log.info("2");
-					//Length 4 and Integer 
-					for(Integer i = 0; i<4;i++) {	
-						log.info("i:"+i);
-						//loop text
-					
-						log.info("3");
-						if(text.substring(i,i+1).equals(quest.substring(i,i+1))) {
-							log.info("4");
+				String quest = game.getQuest();
+
+				Hashtable<Integer, Integer> placeUsed = new Hashtable<>();
+
+				// verify integer
+				if (text.length() == 4 && isInteger(text)) {
+					// Length 4 and Integer
+					for (Integer i = 0; i < 4; i++) {
+						// loop text
+						if (text.substring(i, i + 1).equals(quest.substring(i, i + 1))) {
 							place++;
 							placeUsed.put(i, i);
-						}
-						else {
-							log.info("5");
-							for(Integer j = 0; j<4;j++) {
-								log.info("j:"+j);
-								//Find in quest
-								log.info("text f: "+text);
-								log.info("quest f: "+quest);
-								
-								if(text.substring(i,i+1).equals(quest.substring(j,j+1))) {
-									log.info("51");
-									if(placeUsed.get(i) == null) {
-										log.info("52");
+						} else {
+							for (Integer j = 0; j < 4; j++) {
+								// Find in quest
+								if (text.substring(i, i + 1).equals(quest.substring(j, j + 1))) {
+									if (placeUsed.get(i) == null) {
 										// can use
 										digit++;
 										placeUsed.put(j, j);
@@ -457,51 +434,42 @@ public class DigitPlaceController {
 								}
 							}
 						}
-					}//for i
-					if(place >= 4) {
-						log.info("6");
+					} // for i
+					if (place >= 4) {
 						games.remove(senderId);
-						
-						lineMessagingClient
-                        .getProfile(userId)
-                        .whenComplete((profile, throwable) -> {
-                            if (throwable != null) {
-                            	this.replyText(replyToken, "Your Win!");
-                                return;
-                            }
+						lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
+							if (throwable != null) {
+								this.replyText(replyToken, "Your Win!");
+								return;
+							}
+							this.replyText(replyToken, profile.getDisplayName() + " Win!");
+						});
 
-                            this.replyText(replyToken, profile.getDisplayName()+" Win!");                                                        
-
-                        });
-						
-					}
-					else {
-						log.info("7");
+					} else {
 						strb.setLength(0);
-			            strb.append("ถูกต้อง ตัวเลข ");
-			            strb.append(digit);
-			            strb.append(" ตำแหน่ง ");
-			            strb.append(place);
+						strb.append("ถูกต้อง ตัวเลข ");
+						strb.append(digit);
+						strb.append(" ตำแหน่ง ");
+						strb.append(place);
 						this.replyText(replyToken, strb.toString());
 					}
-				}//Game verify
-			}//game
-			
+				} // Game verify
+			} // game
+
 			break;
 		}
 	}
 
 	private int randInt(int min, int max) {
+		// Usually this can be a field rather than a method variable
+		Random rand = new Random();
+		// nextInt is normally exclusive of the top value,
+		// so add 1 to make it inclusive
+		int randomNum = rand.nextInt((max - min) + 1) + min;
 
-	    // Usually this can be a field rather than a method variable
-	    Random rand = new Random();
-
-	    // nextInt is normally exclusive of the top value,
-	    // so add 1 to make it inclusive
-	    int randomNum = rand.nextInt((max - min) + 1) + min;
-
-	    return randomNum;
+		return randomNum;
 	}
+
 	private void help(@NonNull String replyToken, @NonNull String message) {
 		if (replyToken.isEmpty()) {
 			throw new IllegalArgumentException("replyToken must not be empty");
@@ -563,21 +531,20 @@ public class DigitPlaceController {
 		Path path;
 		String uri;
 	}
-	
+
 	public static boolean isInteger(String s) {
 		log.info("Begin");
-	    try { 
-	        if(Integer.parseInt(s) < 0)
-	        	return false;
-	    } catch(NumberFormatException e) { 
-	        return false; 
-	    } catch(NullPointerException e) {
-	        return false;
-	    }
-	    // only got here if we didn't return false
-	    log.info("End");
-	    return true;
+		try {
+			if (Integer.parseInt(s) < 0)
+				return false;
+		} catch (NumberFormatException e) {
+			return false;
+		} catch (NullPointerException e) {
+			return false;
+		}
+		// only got here if we didn't return false
+		log.info("End");
+		return true;
 	}
-	
-	
+
 }
