@@ -423,7 +423,7 @@ public class DigitPlaceController {
 							place++;
 							this.replyText(replyToken, "add place:"+place);
 							placeUsed.put(i, i);
-							this.replyText(replyToken, "i"+i+"j"+j+" add placeUsed:"+placeUsed.toString());
+							this.replyText(replyToken, "i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
 						} else {
 							for (Integer j = 0; j < 4; j++) {
 								// Find in quest
