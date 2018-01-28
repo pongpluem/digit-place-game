@@ -391,7 +391,7 @@ public class DigitPlaceController {
 			} else {
 				games.put(senderId, game);
 			}
-			this.replyText(replyToken, "Game Start!");
+			this.replyText(replyToken, "Game Start!" + game.getQuest());
 			break;
 		case "g stop":
 			// this.help(replyToken, text);
@@ -421,7 +421,9 @@ public class DigitPlaceController {
 						// loop text
 						if (text.substring(i, i + 1).equals(quest.substring(i, i + 1))) {
 							place++;
+							this.replyText(replyToken, "add place:"+place);
 							placeUsed.put(i, i);
+							this.replyText(replyToken, "i"+i+"j"+j+" add placeUsed:"+placeUsed.toString());
 						} else {
 							for (Integer j = 0; j < 4; j++) {
 								// Find in quest
@@ -429,7 +431,10 @@ public class DigitPlaceController {
 									if (placeUsed.get(i) == null) {
 										// can use
 										digit++;
+										this.replyText(replyToken, "add digit:"+digit);
 										placeUsed.put(j, j);
+										
+										this.replyText(replyToken, "i"+i+"j"+j+" add placeUsed:"+placeUsed.toString());
 									}
 								}
 							}
