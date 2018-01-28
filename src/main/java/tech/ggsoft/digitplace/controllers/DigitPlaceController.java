@@ -459,9 +459,12 @@ public class DigitPlaceController {
 					}
 					//remove place use quest 
 					for(Integer j: placeUsed) {
+						log.info("remove j: "+j);
 						texts.remove(j);
 						quests.remove(j);
 					}
+					log.info("texts: "+texts.toString());
+					log.info("quests: "+quests.toString());
 					
 					//find digit
 					for(Integer k=0; k < texts.size(); k++) {
