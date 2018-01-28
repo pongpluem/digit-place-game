@@ -471,6 +471,7 @@ public class DigitPlaceController {
 								log.info("add digit:"+digit);
 								quests.remove(l);
 								log.info("quests.size():"+quests.size());
+								break;
 							}
 						}
 					}
