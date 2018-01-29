@@ -94,8 +94,7 @@ import tech.ggsoft.digitplace.model.Game;
 @LineMessageHandler
 public class DigitPlaceController {
 
-	private String userId;
-	private String senderId;
+	
 
 	StringBuilder strb = new StringBuilder();
 
@@ -282,9 +281,15 @@ public class DigitPlaceController {
 	}
 
 	private void handleTextContent(String replyToken, Event event, TextMessageContent content) throws Exception {
+		String userId;
+		String senderId;
+		
+		userId = event.getSource().getUserId();
+		senderId = event.getSource().getSenderId();
+		
 		String text = content.getText().toLowerCase();
 
-		log.info("Got text message from {}: {}", replyToken, text);
+		//log.info("Got text message from {}: {}", replyToken, text);
 		switch (text) {
 		/*
 		 * case "profile": { String userId = event.getSource().getUserId(); if
@@ -386,9 +391,7 @@ public class DigitPlaceController {
 			this.help(replyToken, text);
 			break;
 		case "g start":
-			// this.help(replyToken, text);
-			userId = event.getSource().getUserId();
-			senderId = event.getSource().getSenderId();
+			// this.help(replyToken, text);		
 
 			d1 = randInt(0, 9);
 			d2 = randInt(0, 9);
@@ -516,7 +519,7 @@ public class DigitPlaceController {
 					} else {
 						strb.setLength(0);
 						strb.append(game.getQuest());
-						strb.append(" ตำแหน่ง : ");
+						strb.append(" --> ตำแหน่ง : ");
 						strb.append(place);
 						strb.append(" ตัวเลข : ");
 						strb.append(digit);
