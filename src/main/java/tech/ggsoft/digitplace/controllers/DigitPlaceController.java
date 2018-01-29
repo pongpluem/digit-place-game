@@ -189,21 +189,31 @@ public class DigitPlaceController {
 	@EventMapping
 	public void handleFollowEvent(FollowEvent event) {
 		String replyToken = event.getReplyToken();
-		this.help(replyToken, "");
+		//this.help(replyToken, "");
 		// this.replyText(replyToken, "Got followed event");
+		
+		this.reply(replyToken,
+				Arrays.asList(
+						new TextMessage("มาเล่นเกมส์กัน!"),
+						new TextMessage(getHelpInformation())));
 	}
 
 	@EventMapping
 	public void handleJoinEvent(JoinEvent event) {
-		// String replyToken = event.getReplyToken();
+		String replyToken = event.getReplyToken();
 		// this.replyText(replyToken, "Joined " + event.getSource());
+		//this.help(replyToken, "");
+		this.reply(replyToken,
+				Arrays.asList(
+						new TextMessage("มาเล่นเกมส์กัน!"),
+						new TextMessage(getHelpInformation())));
 	}
 
 	@EventMapping
 	public void handlePostbackEvent(PostbackEvent event) {
-		String replyToken = event.getReplyToken();
-		this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param "
-				+ event.getPostbackContent().getParams().toString());
+		//String replyToken = event.getReplyToken();
+		//this.replyText(replyToken, "Got postback data " + event.getPostbackContent().getData() + ", param "
+		//		+ event.getPostbackContent().getParams().toString());
 	}
 
 	@EventMapping
@@ -430,7 +440,7 @@ public class DigitPlaceController {
 			// this.replyText(replyToken, "Game Over!");
 			this.reply(replyToken, Arrays.asList(new TextMessage("Game Over!"), new TextMessage("เฉลย : " + quest)));
 			break;
-		case "g command":				
+		case "g cmd":				
 			this.reply(replyToken, Arrays.asList(
 					new TextMessage("g help  : วิธีเล่นเกมส์"),					
 					new TextMessage("g start : เริ่มเกมส์"),
@@ -519,7 +529,8 @@ public class DigitPlaceController {
 					} else {
 						strb.setLength(0);
 						strb.append(text);
-						strb.append(" --> ตำแหน่ง : ");
+						strb.append(" ▼ \n");
+						strb.append("  ตำแหน่ง : ");
 						strb.append(place);
 						strb.append(" ตัวเลข : ");
 						strb.append(digit);
@@ -547,7 +558,7 @@ public class DigitPlaceController {
 			throw new IllegalArgumentException("replyToken must not be empty");
 		}
 
-		StringBuilder strb = new StringBuilder();
+		/*StringBuilder strb = new StringBuilder();
 
 		strb.append("วิธีเล่น\n");
 		strb.append("1. พิมพ์ g start เพื่อเริ่มเกมส์\n");
@@ -557,8 +568,24 @@ public class DigitPlaceController {
 		strb.append("3. เกมส์จบเมือทายถูกครบ 4 ตำแหน่ง\n");
 		strb.append("4. สามารถจบเกมส์ได้ทันที โดยการพิมพ์ g stop\n");
 		strb.append("5. ติดต่อแนะนำได้ที่ digitplace.ggsoft@gmail.com\n");
-		message = strb.toString();
+		message = strb.toString();*/
+		message = getHelpInformation();
 		this.reply(replyToken, new TextMessage(message));
+	}
+	
+	private String getHelpInformation(){
+		//StringBuilder strb = new StringBuilder();
+		strb.setLength(0);
+		strb.append("วิธีเล่น\n");
+		strb.append("1. พิมพ์ g start เพื่อเริ่มเกมส์\n");
+		strb.append("	- ระบบจะสุ่มเลือกตัวเลข 0-9 มาจำนวน 4 หลัก เช่น 1111 หรือ 1150\n");
+		strb.append("2. พิมพ์ตัวเลข 4 หลัก เช่น 1234  เพื่อทายตัวเลข\n");
+		strb.append("	- ระบบจะแสดง จำนวน ตัวเลข และ ตำแหน่ง ที่ถูกต้อง เช่น ตัวเลข : 1 ตำแหน่ง : 3\n");
+		strb.append("3. เกมส์จบเมือทายถูกครบ 4 ตำแหน่ง\n");
+		strb.append("4. สามารถจบเกมส์ได้ทันที โดยการพิมพ์ g stop\n");
+		strb.append("5. แสดงคำสั่งทั้งหมดพิมพ์ g cmd\n");
+		strb.append("6. ติดต่อแนะนำได้ที่ digitplace.ggsoft@gmail.com\n");
+		return strb.toString();
 	}
 
 	private static String createUri(String path) {
