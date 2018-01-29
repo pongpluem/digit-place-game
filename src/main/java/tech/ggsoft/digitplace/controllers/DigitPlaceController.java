@@ -33,6 +33,8 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 
 import javax.annotation.PostConstruct;
 
@@ -183,8 +185,9 @@ public class DigitPlaceController {
 
 	@EventMapping
 	public void handleFollowEvent(FollowEvent event) {
-		// String replyToken = event.getReplyToken();
-		// this.replyText(replyToken, "Got followed event");
+		String replyToken = event.getReplyToken();
+		this.help(replyToken, "");
+		//this.replyText(replyToken, "Got followed event");
 	}
 
 	@EventMapping
@@ -422,6 +425,7 @@ public class DigitPlaceController {
 					for (Integer i = 3; i >= 0; i--) {						
 						if (texts.get(i).equals(quests.get(i))) {
 							place++;
+							digit++;
 							//log.info("add place:"+place);
 							placeUsed.add(i);
 							//log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
@@ -445,22 +449,38 @@ public class DigitPlaceController {
 						while(s>0) {
 							if (texts.get(k).equals(quests.get(s-1))){
 								digit++;
-								log.info("add digit:"+digit);
-								quests.remove(s-1);								
-								//break;
+								//log.info("add digit:"+digit);
+								quests.remove(s-1);									
+								//break;  //<== 								
 							}
 							s--;
 						}						
 					}
 					
 					if (place >= 4) {
-						games.remove(senderId);
+						long seconds = SECONDS.between(game.getLocalTime(), LocalTime.now());
+						int hours = (int) seconds / 3600;
+						int remainder = (int) seconds - hours * 3600;
+						int mins = remainder / 60;
+						remainder = remainder - mins * 60;
+						int secs = remainder;
+						
+						games.remove(senderId);						
 						lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
 							if (throwable != null) {
 								this.replyText(replyToken, "Your Win!");
 								return;
 							}
-							this.replyText(replyToken, profile.getDisplayName() + " Win!");
+							//this.replyText(replyToken, profile.getDisplayName() + " Win!");
+							
+							this.reply(
+                                    replyToken,
+                                    Arrays.asList(new TextMessage(
+                                    		profile.getDisplayName() + " Win!"),
+                                                  new TextMessage("เวลา : "+String.format("%02d", hours)+":"+String.format("%02d", mins)+":"+String.format("%02d", secs)+" นาที"
+                                                                  ))
+                            );
+							
 						});
 
 					} else {
