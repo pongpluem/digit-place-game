@@ -425,7 +425,7 @@ public class DigitPlaceController {
 					for (Integer i = 3; i >= 0; i--) {						
 						if (texts.get(i).equals(quests.get(i))) {
 							place++;
-							//digit++;
+							digit++;
 							//log.info("add place:"+place);
 							placeUsed.add(i);
 							//log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
