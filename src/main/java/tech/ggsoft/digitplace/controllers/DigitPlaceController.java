@@ -35,7 +35,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
-
 import javax.annotation.PostConstruct;
 
 import com.linecorp.bot.model.action.DatetimePickerAction;
@@ -135,10 +134,11 @@ public class DigitPlaceController {
 	@EventMapping
 	public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
 		/*
-		 * log.info("Handle Location Message"); LocationMessageContent locationMessage =
-		 * event.getMessage(); reply(event.getReplyToken(), new LocationMessage(
-		 * locationMessage.getTitle(), locationMessage.getAddress(),
-		 * locationMessage.getLatitude(), locationMessage.getLongitude() ));
+		 * log.info("Handle Location Message"); LocationMessageContent
+		 * locationMessage = event.getMessage(); reply(event.getReplyToken(),
+		 * new LocationMessage( locationMessage.getTitle(),
+		 * locationMessage.getAddress(), locationMessage.getLatitude(),
+		 * locationMessage.getLongitude() ));
 		 */
 	}
 
@@ -146,12 +146,14 @@ public class DigitPlaceController {
 	public void handleImageMessageEvent(MessageEvent<ImageMessageContent> event) throws IOException {
 		// You need to install ImageMagick
 		/*
-		 * log.info("Handle Image Message"); handleHeavyContent( event.getReplyToken(),
-		 * event.getMessage().getId(), responseBody -> { DownloadedContent jpg =
-		 * saveContent("jpg", responseBody); DownloadedContent previewImg =
-		 * createTempFile("jpg"); system( "convert", "-resize", "240x",
-		 * jpg.path.toString(), previewImg.path.toString()); reply(((MessageEvent)
-		 * event).getReplyToken(), new ImageMessage(jpg.getUri(), jpg.getUri())); });
+		 * log.info("Handle Image Message"); handleHeavyContent(
+		 * event.getReplyToken(), event.getMessage().getId(), responseBody -> {
+		 * DownloadedContent jpg = saveContent("jpg", responseBody);
+		 * DownloadedContent previewImg = createTempFile("jpg"); system(
+		 * "convert", "-resize", "240x", jpg.path.toString(),
+		 * previewImg.path.toString()); reply(((MessageEvent)
+		 * event).getReplyToken(), new ImageMessage(jpg.getUri(),
+		 * jpg.getUri())); });
 		 */
 	}
 
@@ -159,9 +161,10 @@ public class DigitPlaceController {
 	public void handleAudioMessageEvent(MessageEvent<AudioMessageContent> event) throws IOException {
 		log.info("Handle Audio Message");
 		/*
-		 * handleHeavyContent( event.getReplyToken(), event.getMessage().getId(),
-		 * responseBody -> { DownloadedContent mp4 = saveContent("mp4", responseBody);
-		 * reply(event.getReplyToken(), new AudioMessage(mp4.getUri(), 100)); });
+		 * handleHeavyContent( event.getReplyToken(),
+		 * event.getMessage().getId(), responseBody -> { DownloadedContent mp4 =
+		 * saveContent("mp4", responseBody); reply(event.getReplyToken(), new
+		 * AudioMessage(mp4.getUri(), 100)); });
 		 */
 	}
 
@@ -169,12 +172,13 @@ public class DigitPlaceController {
 	public void handleVideoMessageEvent(MessageEvent<VideoMessageContent> event) throws IOException {
 		// You need to install ffmpeg and ImageMagick.
 		/*
-		 * log.info("Handle Video Message"); handleHeavyContent( event.getReplyToken(),
-		 * event.getMessage().getId(), responseBody -> { DownloadedContent mp4 =
-		 * saveContent("mp4", responseBody); DownloadedContent previewImg =
-		 * createTempFile("jpg"); system("convert", mp4.path + "[0]",
-		 * previewImg.path.toString()); reply(((MessageEvent) event).getReplyToken(),
-		 * new VideoMessage(mp4.getUri(), previewImg.uri)); });
+		 * log.info("Handle Video Message"); handleHeavyContent(
+		 * event.getReplyToken(), event.getMessage().getId(), responseBody -> {
+		 * DownloadedContent mp4 = saveContent("mp4", responseBody);
+		 * DownloadedContent previewImg = createTempFile("jpg");
+		 * system("convert", mp4.path + "[0]", previewImg.path.toString());
+		 * reply(((MessageEvent) event).getReplyToken(), new
+		 * VideoMessage(mp4.getUri(), previewImg.uri)); });
 		 */
 	}
 
@@ -187,7 +191,7 @@ public class DigitPlaceController {
 	public void handleFollowEvent(FollowEvent event) {
 		String replyToken = event.getReplyToken();
 		this.help(replyToken, "");
-		//this.replyText(replyToken, "Got followed event");
+		// this.replyText(replyToken, "Got followed event");
 	}
 
 	@EventMapping
@@ -283,86 +287,97 @@ public class DigitPlaceController {
 		log.info("Got text message from {}: {}", replyToken, text);
 		switch (text) {
 		/*
-		 * case "profile": { String userId = event.getSource().getUserId(); if (userId
-		 * != null) { lineMessagingClient .getProfile(userId) .whenComplete((profile,
-		 * throwable) -> { if (throwable != null) { this.replyText(replyToken,
-		 * throwable.getMessage()); return; }
+		 * case "profile": { String userId = event.getSource().getUserId(); if
+		 * (userId != null) { lineMessagingClient .getProfile(userId)
+		 * .whenComplete((profile, throwable) -> { if (throwable != null) {
+		 * this.replyText(replyToken, throwable.getMessage()); return; }
 		 * 
-		 * this.reply( replyToken, Arrays.asList(new TextMessage( "Display name: " +
-		 * profile.getDisplayName()), new TextMessage("Status message: " +
-		 * profile.getStatusMessage())) );
+		 * this.reply( replyToken, Arrays.asList(new TextMessage(
+		 * "Display name: " + profile.getDisplayName()), new
+		 * TextMessage("Status message: " + profile.getStatusMessage())) );
 		 * 
 		 * }); } else { this.replyText(replyToken,
-		 * "Bot can't use profile API without user ID"); } break; } case "push": {
-		 * log.info("push event!"); String userId = event.getSource().getUserId();
-		 * String senderId = event.getSource().getSenderId();
-		 * log.info("userid : "+userId); log.info("senderId : "+senderId); if (userId !=
-		 * null) { lineMessagingClient .getProfile(userId) .whenComplete((profile,
+		 * "Bot can't use profile API without user ID"); } break; } case "push":
+		 * { log.info("push event!"); String userId =
+		 * event.getSource().getUserId(); String senderId =
+		 * event.getSource().getSenderId(); log.info("userid : "+userId);
+		 * log.info("senderId : "+senderId); if (userId != null) {
+		 * lineMessagingClient .getProfile(userId) .whenComplete((profile,
 		 * throwable) -> { if (throwable != null) { this.pushText(userId,
 		 * throwable.getMessage()); return; }
 		 * 
-		 * log.info("push to userid"); this.push( userId, Arrays.asList(new TextMessage(
-		 * "Display name: " + profile.getDisplayName()), new
+		 * log.info("push to userid"); this.push( userId, Arrays.asList(new
+		 * TextMessage( "Display name: " + profile.getDisplayName()), new
 		 * TextMessage("Status message: " + profile.getStatusMessage())) );
 		 * log.info("push to senderid"); this.push( senderId, Arrays.asList(new
 		 * TextMessage( "Display name: " + profile.getDisplayName()), new
 		 * TextMessage("Status message: " + profile.getStatusMessage())) );
 		 * 
 		 * }); } else { this.replyText(replyToken,
-		 * "Bot can't use profile API without user ID"); } break; } case "bye": { Source
-		 * source = event.getSource(); if (source instanceof GroupSource) {
-		 * this.replyText(replyToken, "Leaving group");
-		 * lineMessagingClient.leaveGroup(((GroupSource) source).getGroupId()).get(); }
-		 * else if (source instanceof RoomSource) { this.replyText(replyToken,
-		 * "Leaving room"); lineMessagingClient.leaveRoom(((RoomSource)
+		 * "Bot can't use profile API without user ID"); } break; } case "bye":
+		 * { Source source = event.getSource(); if (source instanceof
+		 * GroupSource) { this.replyText(replyToken, "Leaving group");
+		 * lineMessagingClient.leaveGroup(((GroupSource)
+		 * source).getGroupId()).get(); } else if (source instanceof RoomSource)
+		 * { this.replyText(replyToken, "Leaving room");
+		 * lineMessagingClient.leaveRoom(((RoomSource)
 		 * source).getRoomId()).get(); } else { this.replyText(replyToken,
 		 * "Bot can't leave from 1:1 chat"); } break; } case "confirm": {
 		 * ConfirmTemplate confirmTemplate = new ConfirmTemplate( "Do it?", new
 		 * MessageAction("Yes", "Yes!"), new MessageAction("No", "No!") );
-		 * TemplateMessage templateMessage = new TemplateMessage("Confirm alt text",
-		 * confirmTemplate); this.reply(replyToken, templateMessage); break; } case
-		 * "buttons": { String imageUrl = createUri("/static/buttons/1040.jpg");
+		 * TemplateMessage templateMessage = new
+		 * TemplateMessage("Confirm alt text", confirmTemplate);
+		 * this.reply(replyToken, templateMessage); break; } case "buttons": {
+		 * String imageUrl = createUri("/static/buttons/1040.jpg");
 		 * ButtonsTemplate buttonsTemplate = new ButtonsTemplate( imageUrl,
 		 * "My button sample", "Hello, my button", Arrays.asList( new
 		 * URIAction("Go to line.me", "https://line.me"), new
-		 * PostbackAction("Say hello1", "hello こんにちは"), new PostbackAction("言 hello2",
-		 * "hello こんにちは", "hello こんにちは"), new MessageAction("Say message", "Rice=米") ));
-		 * TemplateMessage templateMessage = new TemplateMessage("Button alt text",
-		 * buttonsTemplate); this.reply(replyToken, templateMessage); break; } case
-		 * "carousel": { String imageUrl = createUri("/static/buttons/1040.jpg");
-		 * CarouselTemplate carouselTemplate = new CarouselTemplate( Arrays.asList( new
+		 * PostbackAction("Say hello1", "hello こんにちは"), new
+		 * PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"), new
+		 * MessageAction("Say message", "Rice=米") )); TemplateMessage
+		 * templateMessage = new TemplateMessage("Button alt text",
+		 * buttonsTemplate); this.reply(replyToken, templateMessage); break; }
+		 * case "carousel": { String imageUrl =
+		 * createUri("/static/buttons/1040.jpg"); CarouselTemplate
+		 * carouselTemplate = new CarouselTemplate( Arrays.asList( new
 		 * CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList( new
-		 * URIAction("Go to line.me", "https://line.me"), new URIAction("Go to line.me",
-		 * "https://line.me"), new PostbackAction("Say hello1", "hello こんにちは") )), new
+		 * URIAction("Go to line.me", "https://line.me"), new
+		 * URIAction("Go to line.me", "https://line.me"), new
+		 * PostbackAction("Say hello1", "hello こんにちは") )), new
 		 * CarouselColumn(imageUrl, "hoge", "fuga", Arrays.asList( new
 		 * PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"), new
 		 * PostbackAction("言 hello2", "hello こんにちは", "hello こんにちは"), new
-		 * MessageAction("Say message", "Rice=米") )), new CarouselColumn(imageUrl,
-		 * "Datetime Picker", "Please select a date, time or datetime", Arrays.asList(
-		 * new DatetimePickerAction("Datetime", "action=sel", "datetime",
+		 * MessageAction("Say message", "Rice=米") )), new
+		 * CarouselColumn(imageUrl, "Datetime Picker",
+		 * "Please select a date, time or datetime", Arrays.asList( new
+		 * DatetimePickerAction("Datetime", "action=sel", "datetime",
 		 * "2017-06-18T06:15", "2100-12-31T23:59", "1900-01-01T00:00"), new
-		 * DatetimePickerAction("Date", "action=sel&only=date", "date", "2017-06-18",
-		 * "2100-12-31", "1900-01-01"), new DatetimePickerAction("Time",
-		 * "action=sel&only=time", "time", "06:15", "23:59", "00:00") )) ));
-		 * TemplateMessage templateMessage = new TemplateMessage("Carousel alt text",
-		 * carouselTemplate); this.reply(replyToken, templateMessage); break; } case
-		 * "image_carousel": { String imageUrl = createUri("/static/buttons/1040.jpg");
-		 * ImageCarouselTemplate imageCarouselTemplate = new ImageCarouselTemplate(
-		 * Arrays.asList( new ImageCarouselColumn(imageUrl, new
-		 * URIAction("Goto line.me", "https://line.me") ), new
-		 * ImageCarouselColumn(imageUrl, new MessageAction("Say message", "Rice=米") ),
-		 * new ImageCarouselColumn(imageUrl, new PostbackAction("言 hello2",
-		 * "hello こんにちは", "hello こんにちは") ) )); TemplateMessage templateMessage = new
-		 * TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
+		 * DatetimePickerAction("Date", "action=sel&only=date", "date",
+		 * "2017-06-18", "2100-12-31", "1900-01-01"), new
+		 * DatetimePickerAction("Time", "action=sel&only=time", "time", "06:15",
+		 * "23:59", "00:00") )) )); TemplateMessage templateMessage = new
+		 * TemplateMessage("Carousel alt text", carouselTemplate);
+		 * this.reply(replyToken, templateMessage); break; } case
+		 * "image_carousel": { String imageUrl =
+		 * createUri("/static/buttons/1040.jpg"); ImageCarouselTemplate
+		 * imageCarouselTemplate = new ImageCarouselTemplate( Arrays.asList( new
+		 * ImageCarouselColumn(imageUrl, new URIAction("Goto line.me",
+		 * "https://line.me") ), new ImageCarouselColumn(imageUrl, new
+		 * MessageAction("Say message", "Rice=米") ), new
+		 * ImageCarouselColumn(imageUrl, new PostbackAction("言 hello2",
+		 * "hello こんにちは", "hello こんにちは") ) )); TemplateMessage templateMessage =
+		 * new TemplateMessage("ImageCarousel alt text", imageCarouselTemplate);
 		 * this.reply(replyToken, templateMessage); break; } case "imagemap":
-		 * this.reply(replyToken, new ImagemapMessage( createUri("/static/rich"),
-		 * "This is alt text", new ImagemapBaseSize(1040, 1040), Arrays.asList( new
-		 * URIImagemapAction( "https://store.line.me/family/manga/en", new ImagemapArea(
-		 * 0, 0, 520, 520 ) ), new URIImagemapAction(
-		 * "https://store.line.me/family/music/en", new ImagemapArea( 520, 0, 520, 520 )
-		 * ), new URIImagemapAction( "https://store.line.me/family/play/en", new
-		 * ImagemapArea( 0, 520, 520, 520 ) ), new MessageImagemapAction( "URANAI!", new
-		 * ImagemapArea( 520, 520, 520, 520 ) ) ) )); break;
+		 * this.reply(replyToken, new ImagemapMessage(
+		 * createUri("/static/rich"), "This is alt text", new
+		 * ImagemapBaseSize(1040, 1040), Arrays.asList( new URIImagemapAction(
+		 * "https://store.line.me/family/manga/en", new ImagemapArea( 0, 0, 520,
+		 * 520 ) ), new URIImagemapAction(
+		 * "https://store.line.me/family/music/en", new ImagemapArea( 520, 0,
+		 * 520, 520 ) ), new URIImagemapAction(
+		 * "https://store.line.me/family/play/en", new ImagemapArea( 0, 520,
+		 * 520, 520 ) ), new MessageImagemapAction( "URANAI!", new ImagemapArea(
+		 * 520, 520, 520, 520 ) ) ) )); break;
 		 */
 		case "g help":
 			this.help(replyToken, text);
@@ -403,7 +418,22 @@ public class DigitPlaceController {
 			games.remove(senderId);
 			this.replyText(replyToken, "Game Over!");
 			break;
-
+		case "g give up":
+			// this.help(replyToken, text);
+			games = Optional.ofNullable(games).orElse(new Hashtable<>());
+			game = games.get(senderId);
+			String quest = game.getQuest();
+			games.remove(senderId);
+			// this.replyText(replyToken, "Game Over!");
+			this.reply(replyToken, Arrays.asList(new TextMessage("Game Over!"), new TextMessage("เฉลย : " + quest)));
+			break;
+		case "g command":				
+			this.reply(replyToken, Arrays.asList(
+					new TextMessage("g help  : วิธีเล่นเกมส์"),					
+					new TextMessage("g start : เริ่มเกมส์"),
+					new TextMessage("g stop  : หยุดเกมส์"),
+					new TextMessage("g give up : ยอมแพ้")));
+			break;
 		default:
 			// log.info("Returns echo message {}: {}", replyToken, text);
 			// this.replyText(replyToken, text);
@@ -421,42 +451,43 @@ public class DigitPlaceController {
 				// verify integer
 				if (text.length() == 4 && isInteger(text)) {
 					// Length 4 and Integer
-					//place find
-					for (Integer i = 3; i >= 0; i--) {						
+					// place find
+					for (Integer i = 3; i >= 0; i--) {
 						if (texts.get(i).equals(quests.get(i))) {
 							place++;
 							digit++;
-							//log.info("add place:"+place);
+							// log.info("add place:"+place);
 							placeUsed.add(i);
-							//log.info("i"+i+"i"+i+" add placeUsed:"+placeUsed.toString());
-						} 
+							// log.info("i"+i+"i"+i+" add
+							// placeUsed:"+placeUsed.toString());
+						}
 					}
-					//remove place use quest 
-					//Collections.sort(placeUsed, Collections.reverseOrder());
-					//log.info("placeUsed: "+placeUsed.toString());
-					for(Integer j: placeUsed) {
-						//log.info("remove j: "+j);
+					// remove place use quest
+					// Collections.sort(placeUsed, Collections.reverseOrder());
+					// log.info("placeUsed: "+placeUsed.toString());
+					for (Integer j : placeUsed) {
+						// log.info("remove j: "+j);
 						texts.remove(j.intValue());
 						quests.remove(j.intValue());
 					}
-					//log.info("texts: "+texts.toString());
-					//log.info("quests: "+quests.toString());
-					
-					//find digit
-					for(Integer k=0; k < texts.size(); k++) {
+					// log.info("texts: "+texts.toString());
+					// log.info("quests: "+quests.toString());
+
+					// find digit
+					for (Integer k = 0; k < texts.size(); k++) {
 						int s = quests.size();
-						//log.info("quests.size():"+s);					
-						while(s>0) {
-							if (texts.get(k).equals(quests.get(s-1))){
+						// log.info("quests.size():"+s);
+						while (s > 0) {
+							if (texts.get(k).equals(quests.get(s - 1))) {
 								digit++;
-								//log.info("add digit:"+digit);
-								//quests.remove(s-1);									
-								break;  //<== 								
+								// log.info("add digit:"+digit);
+								// quests.remove(s-1);
+								break; // <==
 							}
 							s--;
-						}						
+						}
 					}
-					
+
 					if (place >= 4) {
 						long seconds = SECONDS.between(game.getLocalTime(), LocalTime.now());
 						int hours = (int) seconds / 3600;
@@ -464,23 +495,22 @@ public class DigitPlaceController {
 						int mins = remainder / 60;
 						remainder = remainder - mins * 60;
 						int secs = remainder;
-						
-						games.remove(senderId);						
+
+						games.remove(senderId);
 						lineMessagingClient.getProfile(userId).whenComplete((profile, throwable) -> {
 							if (throwable != null) {
 								this.replyText(replyToken, "Your Win!");
 								return;
 							}
-							//this.replyText(replyToken, profile.getDisplayName() + " Win!");
-							
-							this.reply(
-                                    replyToken,
-                                    Arrays.asList(new TextMessage(
-                                    		profile.getDisplayName() + " Win!"),
-                                                  new TextMessage("เวลา : "+String.format("%02d", hours)+":"+String.format("%02d", mins)+":"+String.format("%02d", secs)+" นาที"
-                                                                  ))
-                            );
-							
+							// this.replyText(replyToken,
+							// profile.getDisplayName() + " Win!");
+
+							this.reply(replyToken,
+									Arrays.asList(new TextMessage(profile.getDisplayName() + " Win!"),
+											new TextMessage("เวลา : " + String.format("%02d", hours) + ":"
+													+ String.format("%02d", mins) + ":" + String.format("%02d", secs)
+													+ " นาที")));
+
 						});
 
 					} else {
@@ -488,7 +518,7 @@ public class DigitPlaceController {
 						strb.append(" ตำแหน่ง : ");
 						strb.append(place);
 						strb.append(" ตัวเลข : ");
-						strb.append(digit);						
+						strb.append(digit);
 						this.replyText(replyToken, strb.toString());
 					}
 				} // Game verify
