@@ -515,6 +515,7 @@ public class DigitPlaceController {
 
 					} else {
 						strb.setLength(0);
+						strb.append(game.getQuest());
 						strb.append(" ตำแหน่ง : ");
 						strb.append(place);
 						strb.append(" ตัวเลข : ");
