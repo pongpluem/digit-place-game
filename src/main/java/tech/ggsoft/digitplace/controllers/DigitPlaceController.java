@@ -435,7 +435,7 @@ public class DigitPlaceController {
 			// this.help(replyToken, text);
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
-			String quest = game.getQuest();
+			String quest = Optional.ofNullable(game.getQuest()).orElse("");
 			games.remove(senderId);
 			// this.replyText(replyToken, "Game Over!");
 			this.reply(replyToken, Arrays.asList(new TextMessage("Game Over!"), new TextMessage("เฉลย : " + quest)));
