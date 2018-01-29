@@ -552,6 +552,7 @@ public class DigitPlaceController {
 		strb.append("	- ระบบจะแสดง จำนวน ตัวเลข และ ตำแหน่ง ที่ถูกต้อง เช่น ตัวเลข : 1 ตำแหน่ง : 3\n");
 		strb.append("3. เกมส์จบเมือทายถูกครบ 4 ตำแหน่ง\n");
 		strb.append("4. สามารถจบเกมส์ได้ทันที โดยการพิมพ์ g stop\n");
+		strb.append("5. ติดต่อแนะนำได้ที่ digitplace.ggsoft@gmail.com\n");
 		message = strb.toString();
 		this.reply(replyToken, new TextMessage(message));
 	}
