@@ -425,20 +425,26 @@ public class DigitPlaceController {
 			}
 			this.replyText(replyToken, "Game Start!");
 			break;
-		case "g stop":
-			// this.help(replyToken, text);
+		case "g stop":			
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			games.remove(senderId);
 			this.replyText(replyToken, "Game Over!");
+			
 			break;
 		case "g give up":
-			// this.help(replyToken, text);
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
-			game = games.get(senderId);
-			String quest = Optional.ofNullable(game.getQuest()).orElse("");
-			games.remove(senderId);
-			// this.replyText(replyToken, "Game Over!");
-			this.reply(replyToken, Arrays.asList(new TextMessage("Game Over!"), new TextMessage("เฉลย : " + quest)));
+			game = Optional.ofNullable(games.get(senderId)).orElse(null);
+			if(game != null){
+				String quest = game.getQuest();
+				games.remove(senderId);				
+				this.reply(replyToken, Arrays.asList(new TextMessage("Game Over!"), new TextMessage("เฉลย : " + quest)));
+			}
+			else{
+				strb.setLength(0);
+				strb.append("ไม่พบเกมส์ก่อนหน้า\n");
+				strb.append("กรุณาพิมพ์ g start เพื่อเริ่มเกมส์ใหม่");
+				this.replyText(replyToken, strb.toString());
+			}
 			break;
 		case "g cmd":				
 			this.reply(replyToken, Arrays.asList(
@@ -447,9 +453,7 @@ public class DigitPlaceController {
 					new TextMessage("g stop  : หยุดเกมส์"),
 					new TextMessage("g give up : ยอมแพ้")));
 			break;
-		default:
-			// log.info("Returns echo message {}: {}", replyToken, text);
-			// this.replyText(replyToken, text);
+		default:	
 			// Verify game already start
 			games = Optional.ofNullable(games).orElse(new Hashtable<>());
 			game = games.get(senderId);
@@ -468,34 +472,25 @@ public class DigitPlaceController {
 					for (Integer i = 3; i >= 0; i--) {
 						if (texts.get(i).equals(quests.get(i))) {
 							place++;
-							digit++;
-							// log.info("add place:"+place);
+							digit++;							
 							placeUsed.add(i);
-							// log.info("i"+i+"i"+i+" add
-							// placeUsed:"+placeUsed.toString());
+						
 						}
 					}
-					// remove place use quest
-					// Collections.sort(placeUsed, Collections.reverseOrder());
-					// log.info("placeUsed: "+placeUsed.toString());
-					for (Integer j : placeUsed) {
-						// log.info("remove j: "+j);
+					// remove place use quest					
+					for (Integer j : placeUsed) {						
 						texts.remove(j.intValue());
 						quests.remove(j.intValue());
 					}
-					// log.info("texts: "+texts.toString());
-					// log.info("quests: "+quests.toString());
-
+		
 					// find digit
 					for (Integer k = 0; k < texts.size(); k++) {
-						int s = quests.size();
-						// log.info("quests.size():"+s);
+						int s = quests.size();						
 						while (s > 0) {
 							if (texts.get(k).equals(quests.get(s - 1))) {
 								digit++;
-								// log.info("add digit:"+digit);
-								// quests.remove(s-1);
-								break; // <==
+								quests.remove(s - 1);
+								break; 
 							}
 							s--;
 						}
@@ -514,9 +509,7 @@ public class DigitPlaceController {
 							if (throwable != null) {
 								this.replyText(replyToken, "Your Win!");
 								return;
-							}
-							// this.replyText(replyToken,
-							// profile.getDisplayName() + " Win!");
+							}						
 
 							this.reply(replyToken,
 									Arrays.asList(new TextMessage(profile.getDisplayName() + " Win!"),
@@ -544,12 +537,8 @@ public class DigitPlaceController {
 	}
 
 	private int randInt(int min, int max) {
-		// Usually this can be a field rather than a method variable
-		Random rand = new Random();
-		// nextInt is normally exclusive of the top value,
-		// so add 1 to make it inclusive
+		Random rand = new Random();	
 		int randomNum = rand.nextInt((max - min) + 1) + min;
-
 		return randomNum;
 	}
 
